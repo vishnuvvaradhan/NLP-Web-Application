@@ -1,0 +1,51 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:standard-page.html'}
+components:
+- type: ColumnPanel
+  properties: {}
+  name: content_panel
+  layout_properties: {slot: default}
+  components:
+  - name: document_markdown
+    properties: {}
+    type: RichText
+    layout_properties: {grid_position: 'GPBGEM,ZRHKSE'}
+- type: FlowPanel
+  properties: {}
+  name: navbar_links
+  layout_properties: {slot: nav-right}
+  components:
+  - name: top_menu_1
+    properties: {}
+    type: form:Top_Menu
+- name: label_1
+  properties: {text: Analyze Document}
+  type: Label
+  layout_properties: {slot: title}
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {slot: left-nav}
+  components:
+  - name: document_chooser
+    properties: {}
+    type: DropDown
+    layout_properties: {grid_position: 'BSVZVM,WFIGUA'}
+    event_bindings: {change: document_chooser_change}
+  - name: document_render_button
+    properties: {text: Render}
+    type: RadioButton
+    layout_properties: {grid_position: 'DZEWHZ,YDMXSB'}
+    event_bindings: {clicked: document_render_button_clicked}
+  - name: document_table_button
+    properties: {text: Table}
+    type: RadioButton
+    layout_properties: {grid_position: 'HWIKGM,WSXQWX'}
+    event_bindings: {clicked: document_table_button_clicked}
+  - name: document_statistics_button
+    properties: {text: Statistics}
+    type: RadioButton
+    layout_properties: {grid_position: 'TYDJNN,FKYLWZ'}
+    event_bindings: {clicked: document_statistics_button_clicked}

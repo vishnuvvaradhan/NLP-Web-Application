@@ -1,0 +1,23 @@
+correct_dependency_ids: {}
+dependencies: []
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/anvil/email.yml
+  client_config: {}
+  server_config: {}
+startup: {type: form, module: Build_Corpus_Form}
+package_name: CS154_WebApp
+allow_embedding: false
+name: Clone of CS154_WebApp
+runtime_options:
+  version: 2
+  client_version: '3'
+  server_version: python3-sandbox
+  server_spec: null
+  server_spec_disabled: {base: python310-standard, requirements: ''}
+metadata: {title: CS154 WebApp, description: A web app for CS 154}
+startup_form: null
+uplink_visible: true
+renamed: true

@@ -1,0 +1,52 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:standard-page.html'}
+components:
+- type: ColumnPanel
+  properties: {}
+  name: document_container
+  layout_properties: {slot: default}
+  components:
+  - name: add_document_area
+    properties: {text: 'Enter document as text or json
+
+        '}
+    type: TextArea
+    layout_properties: {grid_position: 'POMONZ,CXBZLW'}
+  - name: build_corpus_notes
+    properties: {}
+    type: RichText
+    layout_properties: {grid_position: 'OYGHCG,JHAAEF'}
+- type: FlowPanel
+  properties: {}
+  name: navbar_links
+  layout_properties: {slot: nav-right}
+  components:
+  - name: top_menu_1
+    properties: {}
+    type: form:Top_Menu
+- name: label_1
+  properties: {text: Build Corpus}
+  type: Label
+  layout_properties: {slot: title}
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {slot: left-nav}
+  components:
+  - name: add_file_button
+    properties: {text: Upload}
+    type: FileLoader
+    layout_properties: {grid_position: 'WLPESE,XZHIXI'}
+    event_bindings: {change: add_file_button_change}
+  - name: add_document_button
+    properties: {text: Add}
+    type: Button
+    layout_properties: {grid_position: 'BKDOOT,URVTPZ'}
+    event_bindings: {click: add_document_button_click}
+  - name: clear_corpus_button
+    properties: {text: Clear}
+    type: Button
+    layout_properties: {grid_position: 'JJGNVC,IPSVZL'}
+    event_bindings: {click: clear_corpus_button_click}
