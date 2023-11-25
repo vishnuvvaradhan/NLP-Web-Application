@@ -18,6 +18,8 @@ class Analyze_Corpus_Form(Analyze_Corpus_FormTemplate):
       self.corpus_markdown.content = anvil.server.call('get_corpus_entities_statistics')
     elif self.corpus_attributes_chooser.selected_value == 'Chunks':
       self.corpus_markdown.content = anvil.server.call('get_corpus_noun_chunks_statistics')
+    elif self.corpus_attributes_chooser.selected_value == 'Key Phrases':
+      self.corpus_markdown.content = anvil.server.call('get_corpus_keyphrase_statistics')
     self.corpus_statistics_button.selected = False
 
   def plot_counts(self, counts, name):
@@ -39,6 +41,10 @@ class Analyze_Corpus_Form(Analyze_Corpus_FormTemplate):
     elif self.corpus_attributes_chooser.selected_value == 'Chunks':
       counts = anvil.server.call('get_corpus_noun_chunks_counts', top_k=25)
       self.plot_counts(counts, 'Noun Chunk Counts')
+    elif self.corpus_attributes_chooser.selected_value == 'Key Phrases':
+      #counts = anvil.server.call('get_corpus_noun_chunks_counts', top_k=25)
+      #self.plot_counts(counts, 'Noun Chunk Counts')
+      print("Error: Key Phrase Counts Not Available")
     self.corpus_counts_button.selected = False
 
 
@@ -60,4 +66,8 @@ class Analyze_Corpus_Form(Analyze_Corpus_FormTemplate):
     elif self.corpus_attributes_chooser.selected_value == 'Chunks':
       wc = anvil.server.call('get_noun_chunk_cloud')
       self.plot_cloud(wc, 'Tokens')
+    elif self.corpus_attributes_chooser.selected_value == 'Key Phrases':
+      #wc = anvil.server.call('get_noun_chunk_cloud')
+      #self.plot_cloud(wc, 'Tokens')
+      print("Error: Key Phrase Cloud Not Available")
     self.corpus_cloud_button.selected = False

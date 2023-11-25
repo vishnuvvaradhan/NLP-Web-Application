@@ -35,7 +35,8 @@ components:
   components:
   - name: corpus_attributes_chooser
     properties:
-      items: ['', Tokens, Entities, Chunks]
+      items: ['', Tokens, Entities, Chunks, Key Phrases]
+      include_placeholder: false
     type: DropDown
     layout_properties: {grid_position: 'ZWFFLU,UTYSDV'}
   - name: corpus_statistics_button
