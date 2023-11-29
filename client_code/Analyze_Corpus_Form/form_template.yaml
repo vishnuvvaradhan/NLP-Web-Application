@@ -35,7 +35,7 @@ components:
   components:
   - name: corpus_attributes_chooser
     properties:
-      items: ['', Tokens, Entities, Chunks, Key Phrases]
+      items: ['', Tokens, Entities, Chunks, Key Phrases, Sentiment]
       include_placeholder: false
     type: DropDown
     layout_properties: {grid_position: 'ZWFFLU,UTYSDV'}

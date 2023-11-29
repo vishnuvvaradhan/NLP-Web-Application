@@ -41,6 +41,9 @@ class Analyze_Corpus_Form(Analyze_Corpus_FormTemplate):
     elif self.corpus_attributes_chooser.selected_value == 'Chunks':
       counts = anvil.server.call('get_corpus_noun_chunks_counts', top_k=25)
       self.plot_counts(counts, 'Noun Chunk Counts')
+    elif self.corpus_attributes_chooser.selected_value == 'Sentiment':
+      counts = anvil.server.call('get_corpus_sentiment', top_k=25)
+      self.plot_counts(counts, 'Sentiment Counts')
     elif self.corpus_attributes_chooser.selected_value == 'Key Phrases':
       #counts = anvil.server.call('get_corpus_noun_chunks_counts', top_k=25)
       #self.plot_counts(counts, 'Noun Chunk Counts')
