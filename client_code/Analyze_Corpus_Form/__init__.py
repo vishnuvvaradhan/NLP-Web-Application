@@ -21,7 +21,7 @@ class Analyze_Corpus_Form(Analyze_Corpus_FormTemplate):
     elif self.corpus_attributes_chooser.selected_value == 'Key Phrases':
       self.corpus_markdown.content = anvil.server.call('get_corpus_keyphrase_statistics')
     elif self.corpus_attributes_chooser.selected_value == 'Sentiment':
-       self.corpus_markdown.content = anvil.server.call('get_corpus_statistics')
+       self.corpus_markdown.content = anvil.server.call('get_corpus_sentiment_statistics')
     self.corpus_statistics_button.selected = False
 
   def plot_counts(self, counts, name):
