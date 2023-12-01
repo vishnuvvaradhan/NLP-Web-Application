@@ -11,10 +11,9 @@ class Analyze_Document_Form(Analyze_Document_FormTemplate):
 
   def document_summary_button_clicked(self, **event_args):
     """This method is called when this radio button is selected"""
-    self.document_markdown.content.clear()
     if self.document_chooser.selected_value != None:
-      self.document_markdown.content = anvil.server.call('get_document_summary', self.document_chooser.selected_value)
-    self.document_render_button.selected = False
+      self.document_markdown.content = anvil.server.call('get_document_summarys', self.document_chooser.selected_value)
+    self.document_summary_button.selected = False
  
 
   def document_render_button_clicked(self, **event_args):

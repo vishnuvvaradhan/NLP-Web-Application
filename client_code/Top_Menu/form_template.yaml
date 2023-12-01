@@ -2,7 +2,7 @@ container: {type: ColumnPanel}
 components:
 - name: functionality_chooser
   properties:
-    items: ['', Build Corpus, Analyze Corpus, Analyze Document]
+    items: ['', Build Corpus, Analyze Corpus, Analyze Document, Analyze Topics]
   type: DropDown
   layout_properties: {grid_position: 'UERQIA,AADKLJ'}
   event_bindings: {change: functionality_chooser_change}

@@ -37,8 +37,8 @@ components:
   - name: document_summary_button
     properties: {text: Summary}
     type: RadioButton
-    layout_properties: {grid_position: 'DAQEHS,ILQHES'}
-    event_bindings: {clicked: document_statistics_button_clicked}
+    layout_properties: {grid_position: 'ILMTJF,RUJCSO'}
+    event_bindings: {clicked: document_summary_button_clicked}
   - name: document_render_button
     properties: {text: Render}
     type: RadioButton

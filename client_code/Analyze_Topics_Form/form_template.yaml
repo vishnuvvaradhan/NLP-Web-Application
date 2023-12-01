@@ -1,0 +1,50 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:standard-page.html'}
+components:
+- type: ColumnPanel
+  properties: {}
+  name: content_panel
+  layout_properties: {slot: default}
+  components:
+  - name: corpus_plot
+    properties: {height: '400'}
+    type: Plot
+    layout_properties: {grid_position: 'OGUQKF,EYMPRT'}
+  - name: corpus_plot_2
+    properties: {height: '400'}
+    type: Plot
+    layout_properties: {grid_position: 'ZDLXOG,CXNWNM'}
+- type: FlowPanel
+  properties: {}
+  name: navbar_links
+  layout_properties: {slot: nav-right}
+  components:
+  - name: top_menu_1
+    properties: {}
+    type: form:Top_Menu
+- name: label_1
+  properties: {text: Analyze Topics}
+  type: Label
+  layout_properties: {slot: title}
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {slot: left-nav}
+  components:
+  - name: corpus_display_both_button
+    properties: {text: Display Both, group_name: corpus_group}
+    type: RadioButton
+    layout_properties: {grid_position: 'HBXVZI,EFHKNQ'}
+    event_bindings: {clicked: corpus_display_both_button_clicked}
+  - name: corpus_topic_model_button
+    properties: {text: Model Topics, group_name: corpus_group}
+    type: RadioButton
+    layout_properties: {grid_position: 'XZLHGF,TLWGNZ'}
+    event_bindings: {clicked: corpus_topic_model_button_clicked}
+  - name: corpus_topic_documents_model_button
+    properties: {text: Model Documents, group_name: corpus_group}
+    type: RadioButton
+    layout_properties: {grid_position: 'KJYFEY,EAUCKH'}
+    event_bindings: {clicked: corpus_topic_documents_model_button_clicked}

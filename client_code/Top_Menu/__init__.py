@@ -17,4 +17,6 @@ class Top_Menu(Top_MenuTemplate):
       open_form('Analyze_Corpus_Form', corpus="an argument")
     elif self.functionality_chooser.selected_value == 'Analyze Document':
       open_form('Analyze_Document_Form', corpus="an_argument")
+    elif self.functionality_chooser.selected_value == 'Analyze Topics':
+      open_form('Analyze_Topics_Form', corpus="an_argument")
     self.functionality_chooser.selected_value == self.functionality_chooser.items[0]
