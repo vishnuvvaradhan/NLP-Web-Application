@@ -7,6 +7,7 @@ class Analyze_Topics_Form(Analyze_Topics_FormTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.document_chooser.items = anvil.server.call('get_document_ids')
 
   def plot_cloud(self, cloud, name):
     if cloud:

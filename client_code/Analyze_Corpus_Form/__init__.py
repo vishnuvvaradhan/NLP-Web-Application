@@ -79,3 +79,8 @@ class Analyze_Corpus_Form(Analyze_Corpus_FormTemplate):
       wc = anvil.server.call('get_sentiment_cloud')
       self.plot_cloud(wc, 'Tokens')
     self.corpus_cloud_button.selected = False
+
+  
+
+
+
