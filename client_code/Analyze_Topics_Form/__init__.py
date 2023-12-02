@@ -40,6 +40,8 @@ class Analyze_Topics_Form(Analyze_Topics_FormTemplate):
     """This method is called when this radio button is selected"""
     #self.corpus_plot.content.clf()
     #self.corpus_plot_2.content.clf()
+    self.corpus_plot_2.figure = None
+    self.corpus_plot.figure = None
    
     wc = anvil.server.call('get_topic_model_topics_plot')
     self.plot_cloud(wc, 'Topic')
