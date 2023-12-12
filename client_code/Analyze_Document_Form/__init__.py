@@ -37,3 +37,9 @@ class Analyze_Document_Form(Analyze_Document_FormTemplate):
   def document_chooser_change(self, **event_args):
     """This method is called when an item is selected"""
     pass
+    
+
+  def radio_button_1_clicked(self, **event_args):
+    if self.document_chooser.selected_value != None:
+      self.document_markdown.content = anvil.server.call('get_doc_sentiment_markdown', self.document_chooser.selected_value)
+    self.document_statistics_button.selected = False
