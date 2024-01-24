@@ -1,4 +1,3 @@
-# import spacy for nlp
 import spacy
 # import glob in case user enters a file pattern
 import glob
@@ -22,7 +21,7 @@ from sentence_transformers import SentenceTransformer
 from umap import UMAP
 # Set minimum cluster size
 from hdbscan import HDBSCAN
-# I find this dubious but okay; "Improve" default representation
+# "Improve" default representation
 from sklearn.feature_extraction.text import CountVectorizer
 # Use multiple representations
 from bertopic.representation import KeyBERTInspired, MaximalMarginalRelevance, PartOfSpeech
@@ -34,8 +33,7 @@ from transformers import AutoTokenizer
 class span:
     """A simple class that models a text span."""
     
-    # This is the class constructor
-    # self is always the object
+
     def __init__(self, document, start, end): 
         """
         Initialize any new instances of class span with the following attributes
@@ -48,9 +46,7 @@ class span:
         :type end: int
         """
         self.document = document
-        # now you! create an instance attribute for argument start
         self.start = start
-        # now you! create an instance attribute for argument end
         self.end = end
     
     def get_start(self):
@@ -59,7 +55,7 @@ class span:
     def get_end(self):
         return self.end
 
-    # This is a class method, so it has to take self as a parameter. We call it using the dot notation.
+
     def length(self): 
         """
         Calculates the length of the span
@@ -67,10 +63,10 @@ class span:
         :returns: the length of the span
         :rtype: int
         """
-        # define length!
+
         return len(self)
     
-    # This is another class method.
+
     def text(self):
         """
         Returns the text of the span
@@ -97,7 +93,7 @@ class counter(dict):
         if top_k > 0:
             self.reduce_to_top_k(top_k)
 
-        # you don't have to return explicitly, since this is a constructor
+     
         
     def add_item(self, item):
         """Adds an item to the counter.
@@ -105,7 +101,7 @@ class counter(dict):
         :param item: thing to add
         :type item: any
         """
-        # COPY FROM PROJECT 3c
+      
         if item not in self:
             self[item] = 0
         self[item] += 1
@@ -117,7 +113,7 @@ class counter(dict):
         :returns: a list of (item, count) pairs
         :type item: list[tuple]
         """
-        # COPY FROM PROJECT 3c
+  
         return list(sorted(self.items(), key=lambda x:x[1]))
     
     def reduce_to_top_k(self, top_k):
@@ -126,13 +122,8 @@ class counter(dict):
         :param top_k: the number you want to keep
         :type top_k: int
         """
-        # COPY FROM PROJECT 3c
         top_k = min([top_k, len(self)])
-        # Sort the frequency table by frequency (least to most frequent) (1 line)
         sorted_keys = sorted(self, key=lambda x: self[x])
-        # Drop all but the top k from this counter (2 lines)
-        # HINT: go from 0 to len(self)-top_k
-        # HINT: use the pop() method; after all, counter is a dictionary!
         for i in range(0, (len(self)-top_k)+1):
             self.pop(sorted_keys[i])
 
@@ -175,7 +166,7 @@ class corpus(dict):
         :rtype: str
         """
         sent_table = '| Sentence | Sentiment | Aspect | \n | ------------ | -------- | -------- |'
-        # MODIFIED FROM PROJECT 3c: instead of printing or saving the markdown, return it as a string
+       
         sentence_list = self.get_sentence_level_sentiment(doc_id)
         for sentence, sent_label in sentence_list:
             key_phrase_list = self.get_keyphrase_doc(str(sentence))
@@ -201,7 +192,7 @@ class corpus(dict):
         :returns: a list of spaCy documents
         :rtype: list
         """
-        # COPY FROM PROJECT 3c
+ 
         return [item['doc'] for item in self.values()]
    
     def get_document(self, id):
@@ -212,7 +203,7 @@ class corpus(dict):
         :returns: a spaCy document
         :rtype: (spaCy) doc
         """
-        # COPY FROM PROJECT 3c
+
         return self[id]['doc'] if id in self and 'doc' in self[id] else None 
                          
     def get_metadatas(self):
@@ -221,7 +212,7 @@ class corpus(dict):
         :returns: a list of metadata dictionaries
         :rtype: list[dict]
         """
-        # COPY FROM PROJECT 3c
+  
         return [item['metadata'] for item in self.values()]
 
     def get_metadata(self, id):
@@ -232,7 +223,7 @@ class corpus(dict):
         :returns: a metadata dictionary
         :rtype: dict
         """
-        # COPY FROM PROJECT 3c
+   
         return self[id]['metadata'] if id in self and 'metadata' in self[id] else None
     
     def get_document_texts(self):
@@ -281,13 +272,10 @@ class corpus(dict):
         :returns: a list of pairs (item, frequency)
         :rtype: list
         """
-        # COPY FROM PROJECT 3c
+   
         token_list = []
-        # For each doc in the corpus, add its tokens to the list of tokens (2 lines)
         for doc_id in self.get_documents():
             token_list.extend([token.text for token in doc_id if token.pos_ not in tags_to_exclude])
-        # Count the tokens using a counter object; return a list of pairs (item, frequency) (1 line)
-        # HINT: use the counter class
         return counter(token_list, top_k).get_counts()
        
 
@@ -301,7 +289,7 @@ class corpus(dict):
         :returns: a list of pairs (item, frequency)
         :rtype: list
         """
-        # COPY FROM PROJECT 3c
+
         entity_list = []
         for doc_id in self.get_documents():
             entity_list.extend([ent.text for ent in doc_id.ents if ent.label_ not in tags_to_exclude])
@@ -328,7 +316,6 @@ class corpus(dict):
             spacy_paragraphs = []
             for token in doc: 
                 if token.is_space and token.text.count("\n") > 1:
-                    #spacy_paragraphs.append(doc[start:token.i].text)
                     spacy_paragraphs.append(span(doc, start, token.i))
                     start = token.i + 1
             paragraphs.extend(spacy_paragraphs)
@@ -344,7 +331,7 @@ class corpus(dict):
         :returns: a list of pairs (item, frequency)
         :rtype: list
         """
-        # COPY FROM PROJECT 3c
+ 
         metadata_list = []
         metadata_list.extend([metadata[key] for metadata in self.get_metadatas() if key in metadata])
         return counter(metadata_list, top_k).get_counts()
@@ -397,7 +384,7 @@ class corpus(dict):
         :returns: the statistics report
         :rtype: str
         """
-        # NEW FOR PROJECT 4a
+        
         text = f'Documents: %i\n' % len(self)
         text += f'Sentences: %i\n' % sum([len(list(doc.sents)) for doc in self.get_documents()])
         token_counts = self.get_token_counts()
@@ -411,7 +398,7 @@ class corpus(dict):
         :returns: the statistics report
         :rtype: str
         """
-        # NEW FOR PROJECT 4a
+
         text = f'Documents: %i\n' % len(self)
         text += f'Sentences: %i\n' % sum([len(list(doc.sents)) for doc in self.get_documents()])
         entity_counts = self.get_entity_counts()
@@ -425,7 +412,7 @@ class corpus(dict):
         :returns: the statistics report
         :rtype: str
         """
-        # NEW FOR PROJECT 4a
+
         text = f'Documents: %i\n' % len(self)
         text += f'Sentences: %i\n' % sum([len(list(doc.sents)) for doc in self.get_documents()])
         noun_counts = self.get_noun_chunk_counts()
@@ -439,7 +426,7 @@ class corpus(dict):
         :returns: the statistics report
         :rtype: str
         """
-        # NEW FOR PROJECT 4a
+
         text = f'Documents: %i\n' % len(self)
         text += f'Sentences: %i\n' % sum([len(list(doc.sents)) for doc in self.get_documents()])
         key_phrase_counts = self.get_keyphrases_counts()
@@ -453,7 +440,7 @@ class corpus(dict):
         :returns: the statistics report
         :rtype: str
         """
-        # NEW FOR PROJECT 4a
+  
         text = f'Documents: %i\n' % len(self)
         text += f'Sentences: %i\n' % sum([len(list(doc.sents)) for doc in self.get_documents()])
         """
@@ -503,7 +490,7 @@ class corpus(dict):
         :param tags_to_exclude: tags to exclude
         :type tags_to_exclude: list[str]
         """
-        # COPY FROM PROJECT 3c
+    
         reduced_counts = counter(self.get_token_counts(tags_to_exclude, top_k))
         self.plot_counts(reduced_counts, 'token_counts.png')
 
@@ -515,7 +502,7 @@ class corpus(dict):
         :param tags_to_exclude: tags to exclude
         :type tags_to_exclude: list[str]
        """
-        # COPY FROM PROJECT 3c
+    
         reduced_entity_counts = counter(self.get_entity_counts(tags_to_exclude, top_k))
         self.plot_counts(reduced_entity_counts, 'entity_counts.png')
      
@@ -525,7 +512,7 @@ class corpus(dict):
         :param top_k: the number to keep
         :type top_k: int
         """
-        # COPY FROM PROJECT 3c
+ 
         reduced_chunk_counts = counter(self.get_noun_chunk_counts(top_k))
         self.plot_counts(reduced_chunk_counts, 'noun_chunk_counts.png')
      
@@ -537,7 +524,7 @@ class corpus(dict):
         :param top_k: the number to keep
         :type top_k: int
         """
-        # COPY FROM PROJECT 3c
+  
         reduced_meta_counts = counter(self.get_metadata_counts(key, top_k))
         self.plot_counts(reduced_meta_counts, key + '.png')
  
@@ -565,7 +552,7 @@ class corpus(dict):
         :returns: the word cloud
         :rtype: wordcloud
         """
-        # COPY FROM PROJECT 3c, then add return value
+      
         token_counts = self.get_token_counts(tags_to_exclude)
         return self.plot_word_cloud(token_counts, "token_cloud.png")
     
@@ -577,7 +564,7 @@ class corpus(dict):
         :returns: the word cloud
         :rtype: wordcloud
         """
-        # COPY FROM PROJECT 3c, then add return value
+      
         sentiment_counts = self.get_sentiment_counts()
         return self.plot_word_cloud(sentiment_counts, "sentiment_cloud.png")
  
@@ -589,7 +576,7 @@ class corpus(dict):
         :returns: the word cloud
         :rtype: wordcloud
         """
-        # COPY FROM PROJECT 3c, then add return value
+
         entity_counts = self.get_entity_counts(tags_to_exclude)
         return self.plot_word_cloud(entity_counts, "entity_cloud.png")
 
@@ -599,7 +586,7 @@ class corpus(dict):
         :returns: the word cloud
         :rtype: wordcloud
         """
-        # COPY FROM PROJECT 3c, then add return value
+
         chunk_counts = self.get_noun_chunk_counts()
         return self.plot_word_cloud(chunk_counts, "chunk_cloud.png")
 
@@ -613,21 +600,15 @@ class corpus(dict):
         :rtype: str
 
         """
-        # MODIFIED FROM PROJECT 3c: instead of printing or saving the markdown, return it as a string
         doc = self.get_document(doc_id)
         text = '# ' + doc_id + '\n\n'
-        # walk over the tokens in the document
         for token in doc:
-            # if the token is a noun, add it to 'text' and make it boldface (HTML: <b> at the start, </b> at the end)
             if token.pos_ == 'NOUN':
                 text = text + '**' + token.text + '**'
-            # otherwise, if it's a verb, add it to 'text' and make it italicized (HTML: <i> at the start, </i> at the end)
             elif token.pos_ == 'VERB':
                 text = text + '*' + token.text + '*'
-            # otherwise, just add it to 'text'!
             else:
                 text = text + token.text
-        # add any whitespace following the token using attribute whitespace_
             text = text + token.whitespace_
         return text
 
@@ -639,20 +620,13 @@ class corpus(dict):
         :returns: the markdown
         :rtype: str
         """
-        # MODIFIED FROM PROJECT 3c: instead of printing or saving the markdown, return it as a string
         doc = self.get_document(doc_id)
         tokens_table = "| Tokens | Lemmas | Coarse | Fine | Shapes | Morphology |\n| ------ | ------ | ------ | ---- | ------ | ---------- | \n"
-        # walk over the tokens in the document
         for token in doc:
-        # if the token's part of speech is not 'SPACE'
             if token.pos_ != 'SPACE':
-            # add the the text, lemma, coarse- and fine-grained parts of speech, word shape and morphology for this token to `tokens_table`
                 tokens_table  = tokens_table + "| " + token.text + " | " + token.lemma_ + " | " + token.pos_ + " | " + token.tag_ + " | " + token.shape_ + " | " + re.sub(r'\|', '#', str(token.morph)) + " |\n"
-        # Make the entities table
         entities_table = "| Text | Type |\n| ---- | ---- |\n"
-        # walk over the entities in the document
         for entity in doc.ents:
-        # add the text and label for this entity to 'entities_table'
             entities_table = entities_table + "| " + entity.text + " | " + entity.label_ + " |\n"
         return '## Tokens\n' + tokens_table + '\n## Entities\n' + entities_table
 
@@ -664,27 +638,18 @@ class corpus(dict):
         :returns: the markdown
         :rtype: str
         """
-        # MODIFIED FROM PROJECT 3c: instead of printing or saving the markdown, return it as a string
         doc = self.get_document(doc_id)
         stats = {}
-        # walk over the tokens in the document
         for token in doc:
-        # if the token's part of speech is not 'SPACE'
             if token.pos_ != 'SPACE':
-            # add the token and its part of speech tag ('pos_') to 'stats' (check if it is in 'stats' first!)
                 if token.text + token.pos_ not in stats:
                     stats[token.text + token.pos_] = 0
-            # increment its count
                 stats[token.text + token.pos_] = stats[token.text + token.pos_] + 1
-        # walk over the entities in the document
         for entity in doc.ents:
             if entity.text + entity.label_ not in stats:
                 stats[entity.text + entity.label_] = 0
             stats[entity.text + entity.label_] = stats[entity.text + entity.label_] + 1
-
-
         text = '| Token/Entity | Count |\n | ------------ | ----- |\n'
-        # print the key and count for each entry in 'stats'
         for key in sorted(stats.keys()):
             text += '| ' + key + ' | ' + str(stats[key]) + ' |\n'
         return text
@@ -700,10 +665,8 @@ class corpus(dict):
         :returns: a corpus
         :rtype: corpus
          """
-        # COPY FROM PROJECT #c
         if my_corpus == None:
             my_corpus = corpus()
-        # Mostly the same as in project 3b, but use the corpus class add method; don't forget to return my_corpus (3 lines of code)
         with open(file_name, encoding= 'utf-8') as f:
             my_corpus.add_document(file_name, cls.nlp(' '.join(f.readlines())))
         return my_corpus
@@ -757,10 +720,8 @@ class corpus(dict):
         :returns: a my_corpus
         :rtype: my_corpus
          """
-        # COPY FROM PROJECT #c
         if my_corpus == None:
             my_corpus = corpus()
-        # Most the same as in project 3b, but use the corpus add method; don't forget to return my_corpus (6 lines of code)
         with open(file_name, encoding='utf-8') as f:
             for line in f.readlines():
                 js = json.loads(line)
@@ -780,10 +741,8 @@ class corpus(dict):
         :returns: a corpus
         :rtype: corpus
        """
-        # COPY FROM PROJECT #c
         if my_corpus == None:
             my_corpus = corpus()
-        # Mostly the same as in project 3b; don't forget to return my_corpus (5 lines of code)
         shutil.unpack_archive(file_name, 'temp')
         for file_name2 in glob.glob('temp/*'):
             cls.build_corpus(file_name2, my_corpus = my_corpus)
@@ -800,11 +759,8 @@ class corpus(dict):
         :type my_corpus: corpus
         :returns: a corpus
         :rtype: corpus
-         """
-        # COPY FROM PROJECT #c
         if my_corpus == None:
             my_corpus = corpus(pattern)
-       # Mostly the same as in project 3b; don't forget to return my_corpus (11 lines of code)
         try:
             for file_name in glob.glob(pattern):
                 if file_name.endswith('.zip') or file_name.endswith('.tar') or file_name.endswith('.tgz'):
