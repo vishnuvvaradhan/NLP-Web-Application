@@ -281,7 +281,7 @@ def get_doc_sentiment_markdown(id):
 
 
 def run():
-    anvil.server.connect("server_XCJN5ACUIZENMHX47X4SAWAF-E33GC75AVOG6TPZ2")
+    anvil.server.connect("YOUR_API_KEY")
     anvil.server.wait_forever()
 
 if __name__ == "__main__":
